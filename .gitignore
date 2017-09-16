@@ -1,3 +1,6 @@
+Release
+.settings
+.ino.cpp
 # Prerequisites
 *.d
 
