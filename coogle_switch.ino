@@ -1,20 +1,29 @@
 #include <CoogleIOT.h>
 
-#define SERIAL_BAUD 115200
+#include "config.h"
 
-#define NUM_SWITCHES 4
-#define CLIENT_ID "freshwater-power"
-#define SWITCH_BASE_TOPIC "/" CLIENT_ID "/switch/"
+#ifndef SERIAL_BAUD
+#define SERIAL_BAUD 115200
+#endif
+
+#ifndef NUM_SWITCHES
+#define NUM_SWITCHES 2
+#endif
+
+#ifndef TOPIC_ID
+#define TOPIC_ID "coogle-switch"
+#endif
+
+#ifndef SWITCH_BASE_TOPIC
+#define SWITCH_BASE_TOPIC ""
+#endif
+
+#define SWITCH_BASE_TOPIC "/" TOPIC_ID "/switch/"
 
 CoogleIOT *iot;
 PubSubClient *mqtt;
 
 char msg[150];
-
-// List of pins, in order, that we will be switching on/off
-static int switches[NUM_SWITCHES] = {
-	4, 5, 12, 14
-};
 
 void setup() {
 
@@ -23,18 +32,27 @@ void setup() {
   iot->enableSerial(115200);
   iot->initialize();
 
+  iot->info("CoogleSwitch Initializing...");
+  iot->info("-=-=-=-=--=--=-=-=-=-=-=-=-=-=-=-=-=-");
+  iot->logPrintf(INFO, "Number of Switches: %d", NUM_SWITCHES);
+  iot->logPrintf(INFO, "MQTT Topic ID: %s", TOPIC_ID);
+  iot->info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+  iot->info("Switches");
+  iot->info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+
+  for(int i = 0; i < sizeof(switches) / sizeof(int); i++) {
+	pinMode(switches[i], OUTPUT);
+	iot->logPrintf(INFO, "  Switch %d on pin %d", i+1, switches[i]);
+  }
+
+  iot->info("");
+
   if(!iot->mqttActive()) {
 	iot->error("Initialization failure, invalid MQTT Server connection.");
     return;
   }
 
   mqtt = iot->getMQTTClient();
-
-  iot->logPrintf(INFO, "Initializing with %d switch(es)", NUM_SWITCHES);
-
-  for(int i = 0; i < sizeof(switches) / sizeof(int); i++) {
-	pinMode(switches[i], OUTPUT);
-  }
 
   mqtt->setCallback(mqttCallback);
 
