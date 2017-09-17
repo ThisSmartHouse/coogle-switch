@@ -35,7 +35,7 @@ The switches will be controlled via MQTT by publishing a 1 or a 0 to `SWITCH_BAS
 `SWITCH_BASE_TOPIC` is empty you can turn on/off the switches using the configuration described above by publishing a 1 or a 0 to:
 
 ```
-/hallway-power/switch/1'
+/hallway-power/switch/1
 ```
 
 The state of each switch can also be determined by subscribing to the same with an additional `state` appended:
