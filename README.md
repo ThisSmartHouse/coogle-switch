@@ -1,4 +1,4 @@
-#CoogleSwitch
+# CoogleSwitch
 
 A generic multi-purpose sketch built on top of the CoogleIOT platform to control an arbitrary number
 of switches via GPIO pins on an ESP8266 using MQTT. 
