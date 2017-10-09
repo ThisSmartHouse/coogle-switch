@@ -51,7 +51,7 @@ void setup() {
 
   iot = new CoogleIOT(LED_BUILTIN);
 
-  iot->enableSerial(115200);
+  iot->enableSerial(SERIAL_BAUD);
   iot->initialize();
 
   iot->info("CoogleSwitch Initializing...");
