@@ -24,12 +24,16 @@
 
 #include "config.h"
 
+#ifndef STATUS_LED
+#define STATUS_LED LED_BUILTIN
+#endif
+
 #ifndef SERIAL_BAUD
 #define SERIAL_BAUD 115200
 #endif
 
 #ifndef NUM_SWITCHES
-#define NUM_SWITCHES 2
+#define NUM_SWITCHES 4
 #endif
 
 #ifndef TOPIC_ID
@@ -49,7 +53,7 @@ char msg[150];
 
 void setup() {
 
-  iot = new CoogleIOT(LED_BUILTIN);
+  iot = new CoogleIOT(STATUS_LED);
 
   iot->enableSerial(SERIAL_BAUD);
   iot->initialize();
@@ -58,6 +62,7 @@ void setup() {
   iot->info("-=-=-=-=--=--=-=-=-=-=-=-=-=-=-=-=-=-");
   iot->logPrintf(INFO, "Number of Switches: %d", NUM_SWITCHES);
   iot->logPrintf(INFO, "MQTT Topic ID: %s", TOPIC_ID);
+
   iot->info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
   iot->info("Switches");
   iot->info("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
@@ -68,6 +73,12 @@ void setup() {
   }
 
   iot->info("");
+
+#ifdef HAS_BUTTON
+  for(int i = 0; i < sizeof(buttons) / sizeof(int); i++) {
+	  pinMode(buttons[i], INPUT);
+  }
+#endif
 
   if(!iot->mqttActive()) {
 	iot->error("Initialization failure, invalid MQTT Server connection.");
@@ -131,4 +142,38 @@ void mqttCallback(char *topic, byte *payload, unsigned int length)
 
 void loop() {
   iot->loop();
+
+#ifdef HAS_BUTTON
+
+  for(int i = 0; i < sizeof(buttons) / sizeof(int); i++) {
+
+	int currentReading;
+
+	currentReading = digitalRead(buttons[i]);
+
+	if(currentReading == LOW) {
+
+		if(buttonReadings[i] == HIGH) {
+
+			if((millis() - lastToggleTimes[i]) > DEBOUNCE_TIME) {
+
+				if(digitalRead(switches[i]) == HIGH) {
+					digitalWrite(switches[i], LOW);
+				} else {
+					digitalWrite(switches[i], HIGH);
+				}
+
+				lastToggleTimes[i] = millis();
+
+				iot->flashStatus(200);
+			}
+		}
+    }
+
+    buttonReadings[i] = currentReading;
+
+  }
+
+#endif
+
 }
