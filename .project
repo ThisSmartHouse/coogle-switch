@@ -44,7 +44,12 @@
 		<link>
 			<name>core/variant</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/variants/nodemcu</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/variants/generic</locationURI>
+		</link>
+		<link>
+			<name>libraries/DallasTemperature</name>
+			<type>2</type>
+			<location>/Users/john/Arduino/libraries/DallasTemperature</location>
 		</link>
 		<link>
 			<name>libraries/EEPROM</name>
@@ -77,9 +82,29 @@
 			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/libraries/ESP8266mDNS</locationURI>
 		</link>
 		<link>
+			<name>libraries/Ethernet</name>
+			<type>2</type>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/libraries/Ethernet</locationURI>
+		</link>
+		<link>
+			<name>libraries/OneWire</name>
+			<type>2</type>
+			<location>/Users/john/Arduino/libraries/OneWire</location>
+		</link>
+		<link>
 			<name>libraries/PubSubClient</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/libraries/PubSubClient/2.6.0</locationURI>
+			<location>/Users/john/Arduino/libraries/PubSubClient</location>
+		</link>
+		<link>
+			<name>libraries/SPI</name>
+			<type>2</type>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.3.0/libraries/SPI</locationURI>
+		</link>
+		<link>
+			<name>libraries/SRAM</name>
+			<type>2</type>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/libraries/SRAM/1.0.1</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

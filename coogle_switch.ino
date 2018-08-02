@@ -157,10 +157,18 @@ void loop() {
 
 			if((millis() - lastToggleTimes[i]) > DEBOUNCE_TIME) {
 
+				snprintf(msg, 150, SWITCH_BASE_TOPIC "%d/state", i + 1);
+
 				if(digitalRead(switches[i]) == HIGH) {
 					digitalWrite(switches[i], LOW);
+					if(iot->mqttActive()) {
+						mqtt->publish(msg, "0", true);
+					}
 				} else {
 					digitalWrite(switches[i], HIGH);
+					if(iot->mqttActive()) {
+						mqtt->publish(msg, "1", true);
+					}
 				}
 
 				lastToggleTimes[i] = millis();
